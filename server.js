@@ -21,6 +21,7 @@ const connectToDB = require('./config/db-setup.js').connectToDB
 let indexRouter = require('./routes/indexRouter.js')
 let authRouter = require('./routes/authRouter.js')
 let apiRouter = require('./routes/apiRouter.js')
+let proxyRouter = require('./routes/proxyRouter.js')
 
 // Load DB User Model (for appAuthentication configuration)
 let User = require('./db/schema.js').User
@@ -66,6 +67,7 @@ app.use( appMiddleWare.parseQuery )
 app.use( '/', indexRouter )
 app.use( '/auth', authRouter )
 app.use( '/api', apiRouter )
+app.use( '/proxy', proxyRouter )
 
 app.use(appMiddleWare.errorHandler);
 

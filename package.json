@@ -50,9 +50,11 @@
     "express-session": "^1.14.0",
     "jquery": "^3.0.0",
     "mongoose": "^4.5.3",
+    "mws-api": "^2.1.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.1.0",
+    "react-chartist": "^0.12.0",
     "react-dom": "^15.1.0"
   }
 }
