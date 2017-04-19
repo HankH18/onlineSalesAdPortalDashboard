@@ -13,10 +13,8 @@ var Banner = React.createClass({
 		return USERSTORE.data
 	},
 	render: function() {
-		var companyNameDisplay = this.state.user.attributes.name ? this.stateuser.attributes.name : ''
 		return(
 			<div className='banner-wrapper'>
-				<h2>{companyNameDisplay}</h2>
 				<h1>Unify</h1>
 				<ul className='nav'>
 					<li className='nav-item'>
@@ -29,13 +27,6 @@ var Banner = React.createClass({
 							Manage Data Sources
 						</a>
 					</li>
-					{/*<li className='nav-item'>
-						{companyNameDisplay ? <a onClick={USERACTIONS.logout} className='nav-link'>
-							Log Out
-						</a> : <a href='#login' className='nav-link'>
-							Log In
-						</a>}
-					</li>*/}
 				</ul>
 			</div>
 		)

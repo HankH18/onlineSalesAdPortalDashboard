@@ -67,6 +67,7 @@ var AmazonLoginEl = React.createClass({
 				secretAccessKey: formEl.secretAccessKey.value
 			}
 		DATAACTIONS.storeAmazonKeys(userData)
+		formEl.reset()
 	},
 	render: function() {
 		return(

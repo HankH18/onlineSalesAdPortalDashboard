@@ -4,7 +4,7 @@ import Backbone from 'backbone'
 import init from './init'
 import SyncAccountView from './views/syncAccountView'
 import DataPage from './views/dataView'
-import LoginPage from './views/loginSignupView'
+import LoadingPage from './views/loadingView'
 import User from './models/userModel.js'
 
 
@@ -13,15 +13,11 @@ const app = function() {
 		routes: {
 			'data': 'showDataView',
 			'linkData': 'showSyncAccountView',
-			'login': 'showLoginView',
+			'loading': 'showLoadingView',
 			'*default': 'redirect'
 		},
 		redirect: function() {
-			if (User.getCurrentUser()) {
-				location.hash = 'data'
-			} else {
-				location.hash = 'login'
-			}
+			location.hash = 'linkData'
 		},
 		showDataView: function() {
 			ReactDOM.render(<DataPage />, document.querySelector('.container'))
@@ -29,8 +25,8 @@ const app = function() {
 		showSyncAccountView: function() {
 			ReactDOM.render(<SyncAccountView />, document.querySelector('.container'))
 		},
-		showLoginView: function() {
-			ReactDOM.render(<LoginPage />, document.querySelector('.container'))
+		showLoadingView: function() {
+			ReactDOM.render(<LoadingPage />, document.querySelector('.container'))
 		}
 	})
 	window.fbAsyncInit = function() {
