@@ -15,18 +15,8 @@ var monthNameArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 var d = new Date()
 var m = d.getMonth()
 var y = d.getFullYear()
-var availableYearsArray = []
-var setAvailableYears = function(currentYear) {
-	for (var i = 2014; i <= y; i ++) {
-		availableYearsArray.push(i)
-	}
-}
-setAvailableYears(y)
-//var glanceViewVisible = true
-//var visible = {display: 'inline-block'}
-//var invisible = {display: 'none'}
 
-var DataPage = React.createClass({
+export var DataPage = React.createClass({
 	componentWillMount: function() {
 		DATASTORE.on('dataUpdated', () => {
 			console.log('now what is it in the event handler?')
@@ -80,48 +70,6 @@ var DataPage = React.createClass({
 		}
 		return Math.floor(salesTotal)
 	},
-	/*changeTabs: function(tabNumClicked) {
-		if (tabNumClicked === 1) {
-			glanceViewVisible = true
-		} else if (tabNumClicked === 2) {
-			glanceViewVisible = false
-		}
-	},*/
-	render: function() {
-		console.log(this.state)
-		console.log(this.state.fbData.month)
-		console.log(this.state.fbData.year)
-		return(
-			<div className='data-page-wrapper'>
-				<Banner />
-				<SelectMonth
-				getNewAmazonData={this.getNewAmazonData}
-				getNewFbData={this.getNewFbData}
-				fbData={this.state.fbData}/>
-				{/*<PageTabs
-				changeTabs={this.changeTabs}/>*/}
-				<DisplayTotal
-				amazonData={this.state.amazonData}
-				fbData={this.state.fbData}
-				getTotalFbImpressions={this.getTotalFbImpressions}
-				getPercentPaidImpressions={this.getPercentPaidImpressions}
-				getAmazonSalesTotal={this.getAmazonSalesTotal}
-				/>
-				<DisplayGraph 
-				amazonData={this.state.amazonData}
-				fbData={this.state.fbData}
-				getChartRange={this.getChartRange}
-				/>
-				<DisplayTable
-				amazonData={this.state.amazonData}
-				fbData={this.state.fbData}
-				/>
-			</div>
-		)
-	}
-})
-
-var SelectMonth = React.createClass({
 	handleSubmit: function(eventObj) {
 		eventObj.preventDefault()
 		var formEl = eventObj.target
@@ -133,73 +81,58 @@ var SelectMonth = React.createClass({
 			DATAACTIONS.storeFb(monthSubmit, yearSubmit)
 			DATAACTIONS.storeAmazon(monthSubmit, yearSubmit)
 		}
-
-		formEl.reset()
 	},
 	render: function() {
 		return(
-			<form onSubmit={this.handleSubmit}>
-				<select name="month" default={this.props.fbData.month}>
-				    <option value='0'>Jan</option>
-				    <option value='1'>Feb</option>
-				    <option value='2'>Mar</option>
-				    <option value='3'>Apr</option>
-				    <option value='4'>May</option>
-				    <option value='5'>Jun</option>
-				    <option value='6'>Jul</option>
-				    <option value='7'>Aug</option>
-				    <option value='8'>Sep</option>
-				    <option value='9'>Oct</option>
-				    <option value='10'>Nov</option>
-				    <option value='11'>Dec</option>
-	  			</select>
-	  			<select name="year" default={this.props.fbData.year}>
-				    <option value='2017'>2017</option>
-				    <option value='2016'>2016</option>
-				    <option value='2015'>2015</option>
-				    <option value='2014'>2014</option>
-	  			</select>
-	  			<button type="submit">View</button>
-			</form>
+			<div>
+				<Banner
+				handleSubmit={this.handleSubmit}/>
+				<div className="container-fluid">
+				    <div className="row">
+				        <div className="col-sm-3 col-md-2 sidebar">
+				            <ul className="nav nav-sidebar">
+				            	<li className="active"><a href="#data">Overview <span className="sr-only">(current)</span></a></li>
+				            	<li><a href="#table">Table Display</a></li>
+				            </ul>
+						</div>
+						<div className="col-md-10 main">
+	    					<h1 className="page-header">Dashboard {monthNameArray[this.state.fbData.month]} {this.state.fbData.year}</h1>
+							<DisplayTotal
+							amazonData={this.state.amazonData}
+							fbData={this.state.fbData}
+							getTotalFbImpressions={this.getTotalFbImpressions}
+							getPercentPaidImpressions={this.getPercentPaidImpressions}
+							getAmazonSalesTotal={this.getAmazonSalesTotal}
+							/>
+							<DisplayGraph 
+							amazonData={this.state.amazonData}
+							fbData={this.state.fbData}
+							getChartRange={this.getChartRange}
+							/>
+						</div>
+				    </div>
+				</div>
+			</div>
 		)
 	}
 })
 
-/*var PageTabs = React.createClass({
-	render: function() {
-		var unselectedStyle = {
-			color: 'black'
-		}
-		var selectedStyle = {
-			color: 'red'
-		}
-		return(	
-			<ul className='tabs nav'>
-				<li className='nav-item tab1' 
-				onClick={this.props.changeTabs(1)}
-				style={glanceViewVisible ? unselectedStyle : selectedStyle}>
-				Data At a Glance
-				</li>
-				<li className='nav-item tab2'  
-				onClick={this.props.changeTabs(2)}
-				style={glanceViewVisible ? selectedStyle : unselectedStyle}>
-				Table View
-				</li>
-			</ul>
-		)
-	}
-})*/
-
 var DisplayTotal = React.createClass({
 	render: function() {
 		return(
-			<div>
-				<h3>Total Page Impressions:</h3>
-				<h3>{this.props.getTotalFbImpressions()}</h3>
-				<h3>Percent of Impressions from Sponsored Content:</h3>
-				<h3>{this.props.getPercentPaidImpressions()}%</h3>
-				<h3>Total Sales:</h3>
-				<h3>${this.props.getAmazonSalesTotal()}</h3>
+			<div className="row placeholders">
+       			<div className="col-xs-6 col-sm-3 placeholder">
+					<h3 className="img-responsive">{this.props.getTotalFbImpressions()}</h3>
+					<h4>Total Page Impressions</h4>
+				</div>
+				<div className="col-xs-6 col-sm-3 placeholder">
+					<h3 className="img-responsive">{this.props.getPercentPaidImpressions()}%</h3>
+					<h4>Percent of Impressions from Sponsored Content</h4>
+				</div>
+				<div className="col-xs-6 col-sm-3 placeholder">
+					<h3 className="img-responsive">${this.props.getAmazonSalesTotal()}</h3>
+					<h4>Total Sales</h4>
+				</div>
 			</div>
 		)
 	}
@@ -229,10 +162,12 @@ var DisplayGraph = React.createClass({
 		}
 		return(
 			<div>
-				<div>
+				<div className='data-chart'>
+					<p className='chart-title'>Facebook Impressions V. Overall Sales</p>
 					<ChartistGraph className={'ct-chart'} data={chartData1} type={'Line'} options={chartOptions1}/>
 				</div>
-				<div>
+				<div className='data-chart'>
+					<p className='chart-title'>Facebook Impressions: Total V. Sponsored</p>
 					<ChartistGraph className={'ct-chart'} data={chartData2} type={'Bar'} options={chartOptions2}/>
 				</div>
 			</div>
@@ -240,38 +175,74 @@ var DisplayGraph = React.createClass({
 	}
 })
 
-var DisplayTable = React.createClass({
+export var DisplayTable = React.createClass({
+	componentWillMount: function() {
+		DATASTORE.on('dataUpdated', () => {
+			console.log('now what is it in the event handler?')
+			console.log(DATASTORE.data.currentData)
+			this.setState(DATASTORE.data.currentData)
+		})
+	},
+	componentWillUnmount: function() {
+		DATASTORE.off('dataUpdated')
+	},
+	getInitialState: function() {
+		return DATASTORE.data.currentData
+	},
 	fillTable: function() {
 		var rows = []
-		for (var i = 0; i < this.props.fbData.totalImpressions.length; i ++) {
+		for (var i = 0; i < this.state.fbData.totalImpressions.length; i ++) {
 			rows.push({
 				id: (i+1),
-				date: monthNameArray[this.props.fbData.month] + '-' + (i+1) + '-' + this.props.fbData.year,
-				sales: '$' + this.props.amazonData.dailySales[i],
-				fbImpressionsTotal: this.props.fbData.totalImpressions[i],
-				fbImpressionsPaid: this.props.fbData.paidImpressions[i]
+				date: monthNameArray[this.state.fbData.month] + '-' + (i+1) + '-' + this.state.fbData.year,
+				sales: '$' + Math.floor(this.state.amazonData.dailySales[i]),
+				fbImpressionsTotal: this.state.fbData.totalImpressions[i],
+				fbImpressionsPaid: this.state.fbData.paidImpressions[i]
 			})
 		}
 		return rows
 	},
+	handleSubmit: function(eventObj) {
+		eventObj.preventDefault()
+		var formEl = eventObj.target
+		var monthSubmit = parseInt(formEl.month.value)
+		var yearSubmit = parseInt(formEl.year.value)
+		if (yearSubmit === y && monthSubmit > m) {
+			alert('Please request a month which has already taken place')
+		} else {
+			DATAACTIONS.storeFb(monthSubmit, yearSubmit)
+			DATAACTIONS.storeAmazon(monthSubmit, yearSubmit)
+		}
+	},
 	render: function() {
 		return(
-			<BootstrapTable data={this.fillTable()} striped={true} hover={true}>
-			    <TableHeaderColumn dataField="date" isKey={true} dataAlign="center" dataSort={true}>Date</TableHeaderColumn>
-			    <TableHeaderColumn dataField="sales">Total Daily Sales</TableHeaderColumn>
-			    <TableHeaderColumn dataField="fbImpressionsTotal">Total Facebook Impressions</TableHeaderColumn>
-			    <TableHeaderColumn dataField="fbImpressionsPaid">Sponsored Facebook Impressions</TableHeaderColumn>
-			</BootstrapTable>
+			<div>
+				<Banner
+				handleSubmit={this.handleSubmit}/>
+				<div className="container-fluid">
+				    <div className="row">
+				        <div className="col-md-2 sidebar">
+				            <ul className="nav nav-sidebar">
+				            	<li><a href="#data">Overview</a></li>
+				            	<li className="active"><a href="#table">Table Display <span className="sr-only">(current)</span></a></li>
+				            </ul>
+				        </div>
+			            <div className="col-md-10 main">
+	    					<h1 className="page-header">Table View {monthNameArray[this.state.fbData.month]} {this.state.fbData.year}</h1>
+	    					<div className="table-responsive">
+								<BootstrapTable data={this.fillTable()} striped={true} hover={true}>
+								    <TableHeaderColumn dataField="date" isKey={true} dataAlign="center" dataSort={true}>Date</TableHeaderColumn>
+								    <TableHeaderColumn dataField="sales">Total Daily Sales</TableHeaderColumn>
+								    <TableHeaderColumn dataField="fbImpressionsTotal">Total Facebook Impressions</TableHeaderColumn>
+								    <TableHeaderColumn dataField="fbImpressionsPaid">Sponsored Facebook Impressions</TableHeaderColumn>
+								</BootstrapTable>
+							</div>
+						</div>
+				    </div>
+				</div>
+			</div>
 		)
 	}
 })
 
 
-
-
-
-
-
-
-
-export default DataPage

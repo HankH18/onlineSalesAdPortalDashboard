@@ -25,12 +25,18 @@ const DATAACTIONS = {
 		DATAACTIONS.storeAmazon(m, y)
 	},
 
-	getExistingData: function(m, y) {
+	getExistingData: function(inputMonth, inputYear) {
 		var dataArray = DATASTORE.data.amazonData
+		var currentFbObj
+		var currentAmazonObj
 		for (var i = 0; i < dataArray.length; i ++) {
-			if (dataArray[i].month == m && dataArray[i].year == y) {
-				DATASTORE.data.currentData.amazonData = dataArray[i]
-				DATASTORE.data.currentData.fbData = DATASTORE.data.fbData[i]
+			if (dataArray[i].month == inputMonth && dataArray[i].year == inputYear) {
+				currentAmazonObj = dataArray[i]
+				currentFbObj = DATASTORE.data.fbData[i]
+				DATASTORE.changeCurrentData({
+					amazonData: currentAmazonObj,
+					fbData: currentFbObj
+				})
 				return true
 			}
 		}
@@ -50,7 +56,7 @@ const DATAACTIONS = {
 			FB.api('me/insights/page_impressions_by_paid_non_paid_unique?period=day&since=' + year + '-' + (month+1) + '-' + '01&until=' + year + '-' + (month+2) + '-' + '01', {access_token: requestToken}, 
 				function(response) {
 					var arrayLength
-					if (month == m) {
+					if (month === m && year === y) {
 						arrayLength = day
 					} else {
 						arrayLength = response.data[0].values.length
@@ -75,7 +81,7 @@ const DATAACTIONS = {
 			FB.api('me/insights/page_impressions_by_paid_non_paid_unique?period=day&since=' + year + '-' + (month+1) + '-' + '01&until=' + (year+1) + '-01-01', {access_token: requestToken}, 
 				function(response) {
 					var arrayLength
-					if (month == m) {
+					if (month === m && year === y) {
 						arrayLength = day
 					} else {
 						arrayLength = response.data[0].values.length
@@ -116,7 +122,7 @@ const DATAACTIONS = {
 			var result = resp.reports.result
 			var salesArray = []
 			var arrayLength
-			if (month == m) {
+			if (month === m && year === y) {
 				arrayLength = day
 			} else {
 				arrayLength = monthArray[month]

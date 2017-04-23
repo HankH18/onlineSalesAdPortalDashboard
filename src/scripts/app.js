@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Backbone from 'backbone'
 import init from './init'
 import SyncAccountView from './views/syncAccountView'
-import DataPage from './views/dataView'
+import {DataPage, DisplayTable} from './views/dataView'
 import LoadingPage from './views/loadingView'
 import User from './models/userModel.js'
 
@@ -12,8 +12,8 @@ const app = function() {
 	var PageRouter = Backbone.Router.extend({
 		routes: {
 			'data': 'showDataView',
+			'table': 'showTableView',
 			'linkData': 'showSyncAccountView',
-			'loading': 'showLoadingView',
 			'*default': 'redirect'
 		},
 		redirect: function() {
@@ -22,11 +22,11 @@ const app = function() {
 		showDataView: function() {
 			ReactDOM.render(<DataPage />, document.querySelector('.container'))
 		},
+		showTableView: function() {
+			ReactDOM.render(<DisplayTable />, document.querySelector('.container'))
+		},
 		showSyncAccountView: function() {
 			ReactDOM.render(<SyncAccountView />, document.querySelector('.container'))
-		},
-		showLoadingView: function() {
-			ReactDOM.render(<LoadingPage />, document.querySelector('.container'))
 		}
 	})
 	window.fbAsyncInit = function() {

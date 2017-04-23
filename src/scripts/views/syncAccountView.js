@@ -19,13 +19,26 @@ var SyncAccountView = React.createClass({
 	},
 	render: function() {
 		return(
-			<div className='sync-view-wrapper'>
-				<Banner />
-				<h2>Link Facebook Account Data (note, must be registered as an admin for your page):</h2>
-				<FacebookLoginEl />
-				<h2>Link Amazon Account Data:</h2>
-				<AmazonLoginEl />
-			</div>
+			<div className="site-wrapper">
+		      <div className="site-wrapper-inner">
+		        <div className="cover-container">
+		          <div className="masthead clearfix">
+		            <div className="inner">
+		              <Banner/>
+		            </div>
+		          </div>
+		          <div className="inner cover">
+		            <h1 className="cover-heading">Unify your data</h1>
+		            <p className="lead">Unify is data visualization dashboard which puts all of your online ad and sales data in one place</p>
+		            <p className='lead'>Select help in the navbar if you need help logging in</p>
+		            <div className="lead main-forms">
+		              <FacebookLoginEl />
+		              <AmazonLoginEl />
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
 		)
 	}
 })
@@ -36,6 +49,7 @@ var FacebookLoginEl = React.createClass({
 	},
 	checkLoggedIn: function() {
 		FB.getLoginStatus(function(response) {
+			console.log(response)
 			if (response.status === 'connected') {
 				DATAACTIONS.storeFbToken()
 			}
@@ -44,7 +58,8 @@ var FacebookLoginEl = React.createClass({
 	render: function() {
 		this.checkLoggedIn()
 		return(
-			<div className="facebook-login-wrapper">
+			<div className="facebook-login-wrapper login">
+				<h2>Link Facebook Account Data:</h2>
 				<div 
 				className="fb-login-button" 
 				data-size="xlarge" 
@@ -67,31 +82,35 @@ var AmazonLoginEl = React.createClass({
 				secretAccessKey: formEl.secretAccessKey.value
 			}
 		DATAACTIONS.storeAmazonKeys(userData)
+		console.log(userData)
 		formEl.reset()
 	},
 	render: function() {
 		return(
-			<form onSubmit={this.handleSubmit} className='amazon-form'>
-				<input
-					className='sellerId'
-					type='text'
-					name='sellerId'
-					placeholder='Amazon Seller ID'
-				/>
-				<input
-					className='awsAccessKey'
-					type='text'
-					name='awsAccessKey'
-					placeholder='AWS Access Key'
-				/>
-				<input
-					className='secretAccessKey'
-					type='text'
-					name='secretAccessKey'
-					placeholder='AWS Secret Access Key'
-				/>
-				<button className="amazon-button" type="submit">submit</button>
-			</form>
+			<div className='amazon-login-wrapper login'>
+				<h2>Link Amazon Account Data:</h2>
+				<form onSubmit={this.handleSubmit} className='amazon-form'>
+					<input
+						className='sellerId amazon-form-input'
+						type='text'
+						name='sellerId'
+						placeholder='Amazon Seller ID'
+					/>
+					<input
+						className='awsAccessKey amazon-form-input'
+						type='text'
+						name='awsAccessKey'
+						placeholder='AWS Access Key'
+					/>
+					<input
+						className='secretAccessKey amazon-form-input'
+						type='text'
+						name='secretAccessKey'
+						placeholder='AWS Secret Access Key'
+					/>
+					<button className="amazon-button amazon-form-input" type="submit">submit</button>
+				</form>
+			</div>
 		)
 	}
 })

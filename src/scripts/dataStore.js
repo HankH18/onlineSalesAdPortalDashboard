@@ -23,6 +23,10 @@ const DATASTORE = Object.assign({}, Backbone.Events, {
 		this.data.currentData[dataType] = newDataObj
 		this.trigger('dataUpdated')
 	},
+	changeCurrentData: function(newDataObj) {
+		this.data.currentData = newDataObj
+		this.trigger('dataUpdated')
+	},
 	triggerUpdate: function() {
 		this.trigger('dataUpdated')
 	}

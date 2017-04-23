@@ -20,11 +20,11 @@ proxyRouter.get('/reports', function(req,res) {
         limit: Infinity // only get this number of items (NOT the same as MaxRequestsPerPage) 
       }
     });
-
+  
     var afterDate = monthNameArray[req.query.month] + ' 1 ' + req.query.year
     var beforeDate
 
-    if (req.query.month == m && req.query.year == y) {
+    if (parseInt(req.query.month) === m && parseInt(req.query.year) === y) {
       beforeDate = monthNameArray[req.query.month] + ' ' + day + ' ' + req.query.year
     } else {
       beforeDate = monthNameArray[req.query.month] + ' ' + monthArray[req.query.month] + ' ' + req.query.year
