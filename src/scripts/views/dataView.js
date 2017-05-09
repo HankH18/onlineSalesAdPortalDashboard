@@ -120,16 +120,16 @@ export var DataPage = React.createClass({
 var DisplayTotal = React.createClass({
 	render: function() {
 		return(
-			<div className="row placeholders">
-       			<div className="col-xs-6 col-sm-3 placeholder">
+			<div className="row placeholders dataPoints">
+       			<div className="col-xs-6 col-sm-3 placeholder dataNumber">
 					<h3 className="img-responsive">{this.props.getTotalFbImpressions()}</h3>
 					<h4>Total Page Impressions</h4>
 				</div>
-				<div className="col-xs-6 col-sm-3 placeholder">
+				<div className="col-xs-6 col-sm-3 placeholder dataNumber">
 					<h3 className="img-responsive">{this.props.getPercentPaidImpressions()}%</h3>
 					<h4>Percent of Impressions from Sponsored Content</h4>
 				</div>
-				<div className="col-xs-6 col-sm-3 placeholder">
+				<div className="col-xs-6 col-sm-3 placeholder dataNumber">
 					<h3 className="img-responsive">${this.props.getAmazonSalesTotal()}</h3>
 					<h4>Total Sales</h4>
 				</div>
@@ -163,11 +163,11 @@ var DisplayGraph = React.createClass({
 		return(
 			<div>
 				<div className='data-chart'>
-					<p className='chart-title'>Facebook Impressions V. Overall Sales</p>
+					<p className='chart-title'><span className="darkBlue">Facebook Impressions</span> V. <span className="red">Overall Sales</span></p>
 					<ChartistGraph className={'ct-chart'} data={chartData1} type={'Line'} options={chartOptions1}/>
 				</div>
 				<div className='data-chart'>
-					<p className='chart-title'>Facebook Impressions: Total V. Sponsored</p>
+					<p className='chart-title'>Facebook Impressions: <span className="darkBlue">Total</span> V. <span className="lightBlue">Sponsored</span></p>
 					<ChartistGraph className={'ct-chart'} data={chartData2} type={'Bar'} options={chartOptions2}/>
 				</div>
 			</div>
